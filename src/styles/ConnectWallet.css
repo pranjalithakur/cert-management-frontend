@@ -1,0 +1,22 @@
+.connect-wallet-container {
+    text-align: center;
+    padding: 50px;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.proceed-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.proceed-btn:hover {
+    background-color: #3700b3;
+}

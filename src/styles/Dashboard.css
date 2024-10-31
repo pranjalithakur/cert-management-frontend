@@ -1,0 +1,56 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--secondary-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+}
+
+.nav-link {
+    color: var(--navbar-text-color);
+    margin: 0 15px;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: var(--border-radius);
+}
+
+.nav-link.active {
+    color: var(--accent-color);
+    border-bottom: var(--accent-color);
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.disconnect-btn {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.disconnect-btn:hover {
+    background-color: #d32f2f;
+}
+
+.wallet-section {
+    color: #fff;
+    font-weight: bold;
+}
+
+.dashboard-content {
+    padding: 40px;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,42 @@
+:root {
+    --primary-color: #405D72;
+    --secondary-color: #758694;
+    --accent-color: #F7E7DC;
+    --background-color: #FFF8F3;
+    --card-background: #ffffff;
+    --text-color: #333;
+    --border-radius: 5px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+  
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #3700b3;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+h1, h2 {
+    text-align: center;
+    color: var(--secondary-color);
+}

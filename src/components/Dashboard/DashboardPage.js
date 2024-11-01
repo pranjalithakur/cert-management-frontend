@@ -4,6 +4,7 @@ import '../../styles/DashboardPage.css';
 const DashboardPage = () => {
   const issuedCerts = [
     { id: 1, name: "Cert A", recipient: "Recipient Address 1" },
+    { id: 2, name: "Cert B", recipient: "Recipient Address 2" },
     // Add other mock certs or fetch from the blockchain
   ];
 

@@ -22,12 +22,14 @@ const Dashboard = () => {
           <button className={`nav-link ${activePage === 'verify' ? 'active' : ''}`} onClick={() => setActivePage("verify")}>Verify</button>
         </div>
         <div className="wallet-section">
-          <p>Connected Wallet: {publicKey ? publicKey.toBase58() : "Not connected"}</p>
+          <div className="wallet-info" title={publicKey ? publicKey.toBase58() : "Not connected"}>
+            Connected Wallet: {publicKey ? `${publicKey.toBase58().slice(0, 6)}...${publicKey.toBase58().slice(-4)}` : "Not connected"}
+          </div>
           <button className="disconnect-btn" onClick={handleDisconnect}>Disconnect Wallet</button>
         </div>
       </nav>
 
-      <div className="dashboard-content">
+      <div>
         {activePage === "dashboard" && <DashboardPage />}
         {activePage === "issue" && <IssuePage />}
         {activePage === "verify" && <VerifyPage />}

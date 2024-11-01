@@ -9,7 +9,7 @@
 }
 
 .nav-link {
-    color: var(--navbar-text-color);
+    color: var(--secondary-color);
     margin: 0 15px;
     text-decoration: none;
     transition: color 0.3s;
@@ -19,33 +19,44 @@
 }
 
 .nav-link.active {
-    color: var(--accent-color);
-    border-bottom: var(--accent-color);
+    color: var(--secondary-color);
+    border-bottom: var(--hover-color);
 }
 
 .dashboard-container {
     display: flex;
     flex-direction: column;
-    padding: 40px;
+    padding: 50px;
+    background: linear-gradient(135deg, #f3f6f9, #e0eafc);
+    min-height: 85vh;
 }
 
 .disconnect-btn {
     padding: 10px 20px;
-    background-color: #f44336;
+    background-color: #ff6678;
     color: #fff;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background 0.3s;
+    box-shadow: var(--button-box-shadow);
+    margin-left: auto;
 }
 
 .disconnect-btn:hover {
-    background-color: #d32f2f;
+    background-color: #ff899e;
 }
 
 .wallet-section {
-    color: #fff;
+    color: var(--text-color);
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.wallet-info {
+    cursor: pointer;
 }
 
 .dashboard-content {
@@ -53,4 +64,5 @@
     background-color: var(--background-color);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }

@@ -1,13 +1,16 @@
 .landing-container {
-    text-align: center;
-    padding: 80px 80px;
-    color: var(--text-color);
-    background: linear-gradient(135deg, #f3f6f9, #e0eafc);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    padding: 50px;
+    background: linear-gradient(to bottom left, #d5f9fe, #fffcf7);
 }
 
 .landing-title {
     font-size: 3rem;
-    color: var(--secondary-color);
+    color: var(--text-color);
     margin-bottom: 20px;
     font-weight: 700;
 }
@@ -15,8 +18,8 @@
 .connect-wallet-btn {
     font-size: 1.4rem;
     padding: 15px 30px;
-    background-color: var(--primary-color);
-    color: #fff;
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;

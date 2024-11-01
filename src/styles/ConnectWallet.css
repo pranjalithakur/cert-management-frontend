@@ -18,5 +18,5 @@
 }
 
 .proceed-btn:hover {
-    background-color: #3700b3;
+    background-color: var(--hover-color);
 }

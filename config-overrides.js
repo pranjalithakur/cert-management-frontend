@@ -1,0 +1,89 @@
+// /* 
+// * To build solana dependencies properly
+// */
+// const { ProvidePlugin } = require('webpack');
+
+// module.exports = function (config, env) {
+//     return {
+//         ...config,
+//         module: {
+//             ...config.module,
+//             rules: [
+//                 ...config.module.rules,
+//                 {
+//                     test: /\.(m?js|ts)$/,
+//                     enforce: 'pre',
+//                     use: ['source-map-loader'],
+//                 },
+//             ],
+//         },
+//         plugins: [
+//             ...config.plugins,
+//             new ProvidePlugin({
+//                 process: 'process/browser',
+//             }),
+//         ],
+//         resolve: {
+//             ...config.resolve,
+//             fallback: {
+//                 assert: require.resolve('assert'),
+//                 buffer: require.resolve('buffer'),
+//                 stream: require.resolve('stream-browserify'),
+//                 crypto: require.resolve('crypto-browserify'),
+//             },
+//         },
+//         ignoreWarnings: [/Failed to parse source map/],
+//     };
+// };
+
+const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
+
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+
+module.exports = function override(config, webpackEnv) {
+  console.log('overriding webpack config...');
+
+  const isEnvDevelopment = webpackEnv === 'development';
+  const isEnvProduction = webpackEnv === 'production';
+  const loaders = config.module.rules[1].oneOf;
+
+  loaders.splice(loaders.length - 1, 0, {
+    test: /\.(js|mjs|cjs)$/,
+    exclude: /@babel(?:\/|\\{1,2})runtime/,
+    loader: require.resolve('babel-loader'),
+    options: {
+      babelrc: false,
+      configFile: false,
+      compact: false,
+      presets: [
+        [
+          require.resolve('babel-preset-react-app/dependencies'),
+          { helpers: true },
+        ],
+      ],
+      cacheDirectory: true,
+      // See #6846 for context on why cacheCompression is disabled
+      cacheCompression: false,
+      // @remove-on-eject-begin
+      cacheIdentifier: getCacheIdentifier(
+        isEnvProduction
+          ? 'production'
+          : isEnvDevelopment && 'development',
+        [
+          'babel-plugin-named-asset-import',
+          'babel-preset-react-app',
+          'react-dev-utils',
+          'react-scripts',
+        ]
+      ),
+      // @remove-on-eject-end
+      // Babel sourcemaps are needed for debugging into node_modules
+      // code.  Without the options below, debuggers like VSCode
+      // show incorrect code and set breakpoints on the wrong lines.
+      sourceMaps: shouldUseSourceMap,
+      inputSourceMap: shouldUseSourceMap,
+    },
+  });
+
+  return config;
+};

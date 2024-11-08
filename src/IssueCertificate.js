@@ -4,8 +4,7 @@ import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { AnchorProvider, Program, web3 } from "@coral-xyz/anchor";
 import { getAssociatedTokenAddress } from "@solana/spl-token";
-import idl from '../../solana_nft_anchor_hackernoon.json';
-import { SolanaNftAnchorHackernoon } from '../../solana_nft_anchor_hackernoon'
+import idl from '';
 import '../../styles/IssuePage.css';
 
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
@@ -22,8 +21,6 @@ import {
 	TOKEN_PROGRAM_ID,
 	ASSOCIATED_TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import { Buffer } from 'buffer';
-window.Buffer = Buffer;
 
 
 const network = process.env.REACT_APP_SOLANA_NETWORK || clusterApiUrl("devnet");
@@ -60,32 +57,30 @@ const IssuePage = () => {
       const provider = new AnchorProvider(connection, wallet, {
         preflightCommitment: "processed",
       });
+      console.log("Provider initialized.", provider);
       anchor.setProvider(provider);
 
       if (!programID) {
         throw new Error("Program ID is undefined. Check your .env file.");
       }
+      console.log("Program ID:", programID.toString());
 
       if (!wallet.publicKey) {
         throw new Error("Wallet public key is undefined. Make sure the wallet is connected.");
       }
       console.log("Wallet Public Key:", wallet.publicKey.toString());
-      
+      console.log(idl);
       let program;
       try {
         console.log("Program in progress...")
-        program = new Program(idl, programID);
+        program = new Program(idl, programID, provider);
         console.log("Program initialized.");
-        console.log(program)
       } catch (error) {
         console.error("Error initializing program:", error);
       }
-
-      const signer = provider.wallet;
       
-      const umi = createUmi("https://api.devnet.solana.com")
-        .use(walletAdapterIdentity(signer))
-        .use(mplTokenMetadata());
+      // const program = new Program(idl, programID, provider);
+      // console.log("Program initialized.");
      
       // Generate new keypair for mint account
       const mintKeypair = Keypair.generate();
@@ -109,48 +104,31 @@ const IssuePage = () => {
       // );
 
       // derive the metadata PDA
-      // const [metadataAccount] = PublicKey.findProgramAddressSync(
-      //   [
-      //     Buffer.from("metadata"),
-      //     MPL_TOKEN_METADATA_PROGRAM_ID.toBuffer(),
-      //     mintKeypair.publicKey.toBuffer(),
-      //   ],
-      //   MPL_TOKEN_METADATA_PROGRAM_ID
-      // );
-      // console.log("Metadata Account:", metadataAccount.toString());
-
-      // //derive the master edition pda
-      // const [masterEditionAccount] = PublicKey.findProgramAddressSync(
-      //   [
-      //     Buffer.from("metadata"),
-      //     MPL_TOKEN_METADATA_PROGRAM_ID.toBuffer(),
-      //     mintKeypair.publicKey.toBuffer(),
-      //     Buffer.from("edition"),
-      //   ],
-      //   MPL_TOKEN_METADATA_PROGRAM_ID
-      // );
-
-      // derive the metadata account
-      let metadataAccount = findMetadataPda(umi, {
-        mint: publicKey(mintKeypair.publicKey),
-      })[0];
+      const [metadataAccount] = PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("metadata"),
+          MPL_TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+          mintKeypair.publicKey.toBuffer(),
+        ],
+        MPL_TOKEN_METADATA_PROGRAM_ID
+      );
+      console.log("Metadata Account:", metadataAccount.toString());
 
       //derive the master edition pda
-      let masterEditionAccount = findMasterEditionPda(umi, {
-        mint: publicKey(mintKeypair.publicKey),
-      })[0];
-
-      // Sample metadata
-      const metadata = {
-        name: "Kobeni",
-        symbol: "kBN",
-        uri: "https://raw.githubusercontent.com/687c/solana-nft-native-client/main/metadata.json",
-      };
+      const [masterEditionAccount] = PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("metadata"),
+          MPL_TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+          mintKeypair.publicKey.toBuffer(),
+          Buffer.from("edition"),
+        ],
+        MPL_TOKEN_METADATA_PROGRAM_ID
+      );
       
       
       // Call smart contract to mint certificate NFT
       const tx = await program.methods
-        .initNft(metadata.name, metadata.symbol, metadata.uri)
+        .initNft(formData.certName, "CERT", formData.description)
         .accounts({
           signer: wallet.publicKey,
           mint: mintKeypair.publicKey,
